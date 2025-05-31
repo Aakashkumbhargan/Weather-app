@@ -7,7 +7,10 @@ function App() {
 
   const [temp, updateTemp] = useState('')
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=5a0f7ce8698587978535d40301c86747
+  // Replace with your actual OpenWeatherMap API key
+  const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=
   `
 
   const searchLocation = (event) => {
