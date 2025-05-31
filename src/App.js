@@ -6,12 +6,13 @@ function App() {
   const [location, setLocation] = useState('')
 
   const [temp, updateTemp] = useState('')
-
-  // Replace with your actual OpenWeatherMap API key
+  
+  // It's best to store sensitive keys like appid in environment variables.
+  // Create a .env file in your project root with: REACT_APP_WEATHER_API_KEY=your_api_key
+  // Then access it like this:
   const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${apiKey}`;
 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=
-  `
 
   const searchLocation = (event) => {
     if (event.key === 'Enter') {
