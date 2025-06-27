@@ -98,7 +98,7 @@ const searchLocation = async (event) => {
                     {(() => {
                       const tempCelsius = ((data.main.temp - 32) * 5) / 9;
                       if (tempCelsius < 0) {
-                        return "It's  freezing cold today!";
+                        return "It's freezing cold today!";
                       } else if (tempCelsius >= 0 && tempCelsius < 15) {
                         return "It's quite chilly today.";
                       } else if (tempCelsius >= 15 && tempCelsius < 25) {
