@@ -1,6 +1,6 @@
 {
   "name": "weather-app",
-  "homepage": "https://Aakashkumbhargan.github.io/weatherApp",
+  "homepage": "https://weathermatrix.netlify.app/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
