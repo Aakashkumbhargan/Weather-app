@@ -1,16 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
 function App() {
   const [data, setData] = useState({})
   const [location, setLocation] = useState('')
-  const [temp, updateTemp] = useState('')
+  const [temp, updateTemp] = useState({ c: '', f: '' })
   const [error, setError] = useState(null)
 
   const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=${apiKey}`;
 
-const searchLocation = async (event) => {
+  useEffect(() => {
+    if (data.main) {
+      const fahrenheit = data.main.temp;
+      const celsius = ((fahrenheit - 32) * 5) / 9;
+      updateTemp({
+        c: celsius.toFixed(2),
+        f: fahrenheit.toFixed(2)
+      });
+    }
+  }, [data.main]);
+
+  const searchLocation = async (event) => {
     if (event.key === 'Enter') {
       setError(null); // Reset error before request
       try {
@@ -27,7 +38,6 @@ const searchLocation = async (event) => {
       }
     }
   };
-
 
   const updateC = ev => updateTemp({
     c: ev.target.value,
@@ -50,7 +60,7 @@ const searchLocation = async (event) => {
         />
       </div>
 
-     {error && <div className='btn-grad'>{error}</div>}
+      {error && <div className='btn-grad'>{error}</div>}
 
       <div className="container">
         <div className="top">
@@ -98,16 +108,21 @@ const searchLocation = async (event) => {
                     {(() => {
                       const tempCelsius = ((data.main.temp - 32) * 5) / 9;
                       if (tempCelsius < 0) {
-                        return "It's freezing cold today!";
-                      } else if (tempCelsius >= 0 && tempCelsius < 15) {
-                        return "It's quite chilly today.";
-                      } else if (tempCelsius >= 15 && tempCelsius < 25) {
-                        return "The weather is pleasant today.";
-                      } else if (tempCelsius >= 25 && tempCelsius < 35) {
-                        return "It's warm today.";
+                        return "It's freezing cold today! Expect icy conditions and a biting wind.";
+                      } else if (tempCelsius >= 0 && tempCelsius < 10) {
+                        return "It's quite chilly today. You might want to bundle up with a warm coat.";
+                      } else if (tempCelsius >= 10 && tempCelsius < 20) {
+                        return "The weather is cool today. A light jacket or sweater should be enough.";
+                      } else if (tempCelsius >= 20 && tempCelsius < 25) {
+                        return "The weather is mild today. Perfect for a comfortable day outside.";
+                      } else if (tempCelsius >= 25 && tempCelsius < 30) {
+                        return "It's warm today. A great day for short sleeves and outdoor activities.";
+                      } else if (tempCelsius >= 30 && tempCelsius < 35) {
+                        return "It's quite hot today! Stay hydrated and try to stay in the shade.";
                       } else {
-                        return "It's really hot today!";
+                        return "It's really hot today! Make sure to drink plenty of water and avoid direct sunlight.";
                       }
+
                     })()}
                   </p>
                 </>
@@ -117,12 +132,11 @@ const searchLocation = async (event) => {
             <div className="bottom">
               <div id="box2">
                 <h3>Fahrenheit</h3>
-                <input type="number" value={temp.f} onChange={updateF}></input>
+                <input type="number" value={temp.f} onChange={updateF} />
               </div>
               <div id="box1">
                 <h3>Celsius</h3>
-                <input type="number" value={data.main
-          ? (((data.main.temp - 32) * 5) / 9).toFixed(2) : temp.c || ''} onChange={updateC}></input>
+                <input type="number" value={temp.c} onChange={updateC} />
               </div>
             </div>
           </>
